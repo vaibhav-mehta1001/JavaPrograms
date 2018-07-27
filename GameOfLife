@@ -1,0 +1,86 @@
+public class GameOfLife {
+
+	public static void main(String[] args) {
+		int M = 10;
+		int N = 10;
+		// intiliazing the grid.
+		int[][] grid = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+				{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+		// displaying the grid
+		for (int i = 0; i < M; i++) {
+			for (int j = 0; j < N; j++) {
+				if (grid[i][j] == 0)
+					System.out.print(".");
+				else
+					System.out.print("*");
+
+			}
+			System.out.println();
+		}
+		System.out.println();
+		generate(grid, M, N);
+
+	}
+
+	static void init(int[][] grid, int M, int N) {
+		for (int i = 1; i < M - 1; i++) {
+			for (int j = 1; j < N - 1; j++) {
+				grid[i][j] = (Math.random() < 0.5) ? 0 : 1;
+			}
+		}
+	}
+
+	static void generate(int grid[][], int M, int N) {
+
+		int[][] future = new int[M][N];
+
+		// Loop through every cell
+		for (int l = 1; l < M - 1; l++) {
+			for (int m = 1; m < N - 1; m++) {
+
+				// finding no Of Cells that are alive
+				int aliveNeighbours = 0;
+				for (int i = -1; i <= 1; i++) {
+					for (int j = -1; j <= 1; j++) {
+						aliveNeighbours += grid[l + i][m + j];
+					}
+				}
+
+				aliveNeighbours -= grid[l][m];// the cell need to be subtracted
+												// from it's neighbours
+
+				// Implementing the Rules of Life
+				if ((grid[l][m] == 1) && (aliveNeighbours < 2))
+					future[l][m] = 0; // Cell is lonely and dies
+
+				else if ((grid[l][m] == 1) && (aliveNeighbours > 3))
+					future[l][m] = 0; // Cell dies due to over population
+				
+				else if ((grid[l][m] == 0) && (aliveNeighbours == 3))
+					future[l][m] = 1; // A new cell is born
+				
+				else
+					future[l][m] = grid[l][m]; // Remains the same
+			}
+		}
+		for (int i = 0; i < M; i++) {
+			for (int j = 0; j < N; j++) {
+				if (future[i][j] == 0)
+					System.out.print(".");
+				else
+					System.out.print("*");
+			}
+			System.out.println();
+		}
+
+	}
+
+}
