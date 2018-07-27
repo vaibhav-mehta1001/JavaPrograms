@@ -1,0 +1,73 @@
+public class Formula {
+	static String[] leftRadical = { "Na", "K", "Ca", "Mg", "H", "Cu", "Cu",
+			"Fe", "Fe", "Zn", "NH4", "Ba", "Ag", "Pb", "Al" };
+	static int[] leftCharge = { 1, 1, 2, 2, 1, 1, 2, 2, 3, 2, 1, 2, 1, 2, 3 };
+
+	static String[] rightRadical = { "Cl", "Br", "NO3", "SO4", "HSO4", "NO2",
+			"OH", "PO4", "CO3", "HCO3", "O", "CH3COO", "I", "S", "SO3" };
+	static int[] rightCharge = { 1, 1, 1, 2, 1, 1, 1, 3, 2, 1, 2, 1, 1, 2, 2 };
+	static int sn = 0;
+	static int counter = 0;
+
+	public static void main(String[] args) {
+		int j = 0;
+		System.out.println("			Formula Writing Program  "
+				+ "Made By Vaibhav Mehta 8 - A");
+		for (int i = 0; i < leftRadical.length; i++) {
+			for (j = 0; j < rightRadical.length; j++) {
+				print(leftCharge[i], rightCharge[j], leftRadical[i],
+						rightRadical[j]);
+				System.out.println();
+			}
+			j = 0;
+
+		}
+	}
+
+	public static void print(int a, int b, String left, String Right) {
+		counter++;
+		sn++;
+		System.out.print(sn + " ");
+		int charge1, charge2;
+		if (a == b) {
+			charge1 = 1;
+			charge2 = 1;
+			System.out.print(left + "" + Right + ", ");
+		} else if (a != 1 && b != 1) {
+			if (a % b == 0 || b % a == 0) {
+
+				int temp1 = a;
+				int temp2 = b;
+
+				while (a != b) {
+					if (a > b)
+						a = a - b;
+					else
+						b = b - a;
+				}
+
+				charge1 = temp1 / a;
+				charge2 = temp2 / a;
+				if (charge1 != 1 && charge2 != 1) {
+					System.out.print("(" + left + ")" + charge2 + "(" + Right
+							+ ")" + charge1 + ", ");
+				} else if (charge1 == 1 && charge2 != 1) {
+					System.out.print("(" + left + ")" + charge2 + Right + ", ");
+				} else if (charge1 != 1 && charge2 == 1) {
+					System.out.print(left + "" + Right + ", ");
+				}
+			} else {
+				System.out.print("(" + left + ")" + b + "(" + Right + ")" + a
+						+ ", ");
+			}
+
+		} else {
+			System.out.print("(" + left + ")" + b + "(" + Right + ")" + a
+					+ ", ");
+		}
+		if (counter == 10) {
+			counter = 0;
+			System.out.println();
+		}
+	}
+}
